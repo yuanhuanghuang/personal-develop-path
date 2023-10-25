@@ -1,27 +1,32 @@
 const express = require("express");
-const qr = require("qrcode");
+const ejs = require("ejs");
+const path = require("path");
+const qrcode = require("qrcode");
+const exp = require("constants");
 
 const app = express();
+const port = process.env.port || 3000;
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "view"));
 
+app.use(express.static("public"));
 
-// Data Url
-app.get("/", async (req, res) => {
-    let data = {
-        "name" : "Yuan Huang",
-        "gender": "female"
-    };
-    const str = JSON.stringify(data);
-    qr.toDataURL(str,(err,data)=>{
-       if (err) return console.log("error"); 
-       res.send(data)
+app.get("/", (req, res, next) => {
+  res.render("index");
+});
 
+app.post("/scan", (req, res, next) => {
+  const input_text = req.body.text;
+  qrcode.toDataURL(input_text, (err, src) => {
+    if (err) res.send("Something went wrong!!");
+    // console.log(src)
+    res.render("scan", {
+      qr_code: src,
     });
-    
-    
+  });
 });
-
-app.listen(8081, () => {
-  console.log("Started Backend server at PORT: 0.0.0.0:8081", );
-});
+app.listen(port, console.log(`Listening on port ${port}`));
