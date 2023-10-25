@@ -1,3 +1,3 @@
-# index.js practising fs (filesystem)
+# index.js practicing fs (filesystem)
 ## fs.readFile
 ## fs.writeFile
