@@ -257,6 +257,8 @@ function customError(message){
 */
 
 //Document Object Model (DOM)
+// use 'defer' keyword: scripts that manipulate the DOM
+//<script defer src=''></>
 
 const view1 = document.getElementById("view1");
 console.log(view1); //select an element by id and show in the console
@@ -272,10 +274,150 @@ view2.style.display = "flex";
 //we can also select class by using getElemetnByClass and querySelectorAll(".views")
 
 //select all divs section in views
-const div = document.querySelectorAll('div');
-console.log(div); 
-const sameDiv = view1.getElementsByTagName('div')
+const div1 = view1.querySelectorAll('div');
+console.log(div1); 
+const sameDiv = view1.getElementsByTagName('div');
 console.log(sameDiv);
+
+//if we only want to select even divs
+const evenDivs = document.querySelectorAll('div:nth-of-type(2n)');
+console.log(evenDivs);
+
+for (let i=0;i < evenDivs.length;i++){
+    evenDivs[i].style.backgroundColor = "darkblue";
+    // evenDivs[i].style.width = '200px';
+    // evenDivs[i].style.height = '200px';
+
+}
+
+const navText = document.querySelector('nav h1'); // inside the nav bar, we want h1
+navText.textContent = "new content";
+const navBar = document.querySelector('nav');
+navBar.innerHTML = '<h1>Hello</h1> <p> This is diff </p>' // By doing this we are overwriting everything
+//justify content with the space set between
+
+
+
+//Javascript event listener
+view1.style.display =  "none";
+
+
+//syntax of add listener: addEventListener(event,function, useCapture);
+
+const doSomething = () =>{
+    alert('do something');
+}
+/*
+
+h2.addEventListener('click', doSomething); //default useCapture is false
+h2.removeEventListener('click',doSomething);// the event listener is removed
+
+h2.addEventListener('click', (event) => { // using anonymous function
+    console.log(event.target);              //the target is what we clicked 
+    event.target.textContent = "clicked"; //change the text to clicked
+});
+*/
+// same as below if we use function keyword
+/*
+h2.addEventListener('click', function (event) => { // using anonymous function
+    console.log(event.target);              //the target is what we clicked 
+    event.target.textContent = "clicked"; //change the text to clicked
+});
+*/
+
+document.addEventListener('readystatechange',(event) => {
+    if (event.target.readyState === 'complete'){
+        console.log('readyState: complete');
+        //similar to saying if the page is safely loaded
+        //then we can load other listener
+        initApp();
+    }
+    
+});
+
+const initApp = () => {
+    const view = document.querySelector("#view2"); 
+    const div = view.querySelector('div');
+    const h2 = view.querySelector('h2');
+
+    view.addEventListener('click', (event) => {
+        view.style.backgroundColor = "purple";
+       
+    });
+    
+    h2.addEventListener('click', (event) => {
+        event.target.textContent = 'clicked';
+       l
+    });
+}
+
+//event bubbling , when we click on h2, we call h2.addEventListener, and bubble up, we call view.addEventListener
+// because h2 is inside view, so the event goes outsider
+
+//if we set useCapture as true, then the events start from the outermost element and goes inside
+
+
+//web storage api
+
+//not part of DOM --- refers to the window API
+//available to JS via the global variable window
+//we do not have to type window, it is implied
+
+//window.alert('this'); //window.alert = alert
+
+//window.location get the window local address
+
+//local storage (store perssistent data,so we can access through reopen the browser and go back to that session) and session storage (when the session is over, release the storage)
+
+const myObj = {
+    name:"Yuan",
+    array:['this','is','me'],
+    logName: function () {
+        console.log(this.name); //not keep in JSON
+    }
+};
+const myArray = ['this','is','me'];
+
+sessionStorage.setItem('my session store',myObj);
+sessionStorage.setItem('my session store2',JSON.stringify(myObj)); // through this way,we can get string back, not look like Object
+
+
+//check from live session -> application
+
+//retrieve the data
+
+const mySessionData = JSON.parse(sessionStorage.getItem('my session store2')); //same to myArray
+console.log(mySessionData); //[Object Object] type: string
+
+//local storage
+
+localStorage.setItem('localStorage',JSON.stringify(myArray)); // we reopen and it is still there, but the session data is gone
+//may work on highest score in game
+
+localStorage.removeItem('localStorage');
+const myLocalData = JSON.parse(localStorage.getItem('localStorage'));
+console.log(myLocalData); //null
+
+
+//localStorage.clear() //all gone
+
+//localStorage.key() //return all the keys
+
+
+//Js Modules, introduced in ES6
+//export code
+// <script type= 'module' src =''></>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
