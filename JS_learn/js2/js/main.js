@@ -1,3 +1,5 @@
+
+
 /*
 console.log('this');
 console.log(typeof "Yuan");
@@ -407,6 +409,19 @@ console.log(myLocalData); //null
 //Js Modules, introduced in ES6
 //export code
 // <script type= 'module' src =''></>
+
+/* when we use type='module', 1. it automatically apply 'defer' keyword
+2. immediately using strict mode in Js == type use strict on the front
+
+
+*/
+
+import playGuitar from "./guitar";
+// console.log(playGuitar());
+import { plucking, shredding } from "./guitar";
+
+
+
 
 
 
