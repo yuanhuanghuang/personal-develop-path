@@ -416,11 +416,102 @@ console.log(myLocalData); //null
 
 */
 
-import playGuitar from "./guitar";
+// import playGuitar from "./guitar";
 // console.log(playGuitar());
-import { plucking, shredding } from "./guitar";
+// import { plucking, shredding } from "./guitar";
+
+console.clear()
+
+//higer order function : use multiple functions as parameters and return function
+
+//obj.forEach(array...) => {}   === a loop
+//filter
 
 
+
+
+//fetch API
+//Promises / Fetch / Async & Await
+
+
+//callbacks
+/*
+function firstFunction(parameters, callback) {
+    //do stuff
+    callback(); // call a function that internal call other functions, a chain of events
+
+
+}
+*/
+
+//aka "callback hell"
+/*
+firstFunction(para, function()){
+    secondFunction(para, function()){
+        thirdFunction(para, function()){
+            //hard to follow and use Promises to fix this prob
+        }
+    }
+}
+*/
+
+
+//promises
+//3 states: pending, fulfilled, rejected
+
+//deliver async code 
+
+const myPromise = new Promise((resolve, reject) =>{
+    const error = true;
+    if (!error) {
+        resolve('Yes , resolved the promise'); //state of fulfill
+    }
+    else{
+        reject('No, reject the promise'); //state of rejected
+    }
+})
+
+console.log(myPromise);
+
+//Thenebles
+myPromise.then((value)=>{
+    console.log(value);
+    return value + 123//value is return stuff from resolve method
+    //then this value + 123 will be sent as a parameter for the next function in the chain
+
+})
+.then(newValue =>{
+    console.log(newValue);
+})
+.catch(err =>{
+    console.log(err);
+})
+//if there's an err in the promise, it will skip the chain and go to this catch
+
+//fetch API returns a promise on its own
+
+
+//why are we using fetch API and promise: we need to wait data transported from another server and then operate on it, so we use chain functions to do this
+
+
+const users = fetch('https://react.dev/learn/start-a-new-react-project');
+//pending
+console.log(users) //return the state of the promise, and do other things first
+
+
+fetch('https://jsonplaceholder.typicode.com/users')
+ .then(response =>{
+    console.log(response); // the response body shows that it's a readableStream, not yet a data we can work with
+
+    return response.json();
+ })
+ .then(data =>{
+    // console.log(data);
+    //we cannot take the data out globaly
+    data.forEach(user =>{
+        console.log(user);
+    })
+ })
 
 
 
