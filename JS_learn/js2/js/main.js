@@ -426,6 +426,7 @@ console.clear()
 
 //obj.forEach(array...) => {}   === a loop
 //filter
+//map
 
 
 
@@ -507,12 +508,55 @@ fetch('https://jsonplaceholder.typicode.com/users')
  })
  .then(data =>{
     // console.log(data);
-    //we cannot take the data out globaly
+    //we cannot take the data out globaly,because the outside code will be executed first
     data.forEach(user =>{
         console.log(user);
     })
  })
 
+ //too mnay thens are not also desirable, async and await
+
+const myUser  = {
+ userList: []   
+}/*
+async function mycoolfunction(){
+
+}
+*/
+
+const myCoolFunction = async ()=>{
+    const response = await fetch('https://jsonplaceholder.typicode.com/users');
+    //wait the result of fetch befor doing next
+    const jsonUserDAta = await response.json();//await each promise to fulfill
+    //use map higher order function and create a new array
+    const userArray = jsonUserDAta.map(user => {
+        return user.email; // peel the email out from the user data
+    })
+    //await must be use within async function
+    return jsonUserDAta;
+}
+
+// myCoolFunction();
+const anotherFunc = async() =>{
+    const data = await myCoolFunction(); //return thing returned by the first function
+    myUser.userList = data;
+    console.log(myUser.userList); //we should always put this inside, or this will log first before the promise fulfilled
+}
+console.clear();
+anotherFunc(); //chain function together, and the next function must be async function
+
+//second para of fetch
+const getDadJoke = async () =>{
+    const data = await fetch('https://icanhazdadjoke.com/',{
+    method: 'GET',
+    headers: {
+        Accept: 'application/json'
+    } 
+
+   
+
+})
+}
 
 
 
